@@ -1,5 +1,5 @@
 # personal finance tools
-tools that I made to help answer personal finance questions
+This is the list of code/applications I plan to make t=in order to help me become more proficient in Python, data visualization while learning more about personal finance.
 
 ## to do:
 - [ ] Robo advisor comparison
@@ -13,3 +13,4 @@ tools that I made to help answer personal finance questions
 - [ ] How much money do I need to retire
 - [ ] calculating personal rates of return
 - [ ] make budget tracker (version of mint)
+- [ ] TFSA and RRSP return benefit
