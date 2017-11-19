@@ -2,8 +2,8 @@
 tools that I made to help answer personal finance questions
 
 ## to do:
-- [ ] robo adivosr comparison
+- [ ] robo advisor comparison
 - [ ] total comparison
-- [ ] rent vs buy caculator
-- [ ] portfolio survial in retirment analysis
+- [ ] rent vs buy calculator
+- [ ] portfolio survival in retirement analysis
 - [ ] backtesting portfolio
