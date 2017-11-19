@@ -1,9 +1,11 @@
-# personal-finance-tools
+# personal finance tools
 tools that I made to help answer personal finance questions
 
 ## to do:
-- [ ] robo advisor comparison
-- [ ] total comparison
-- [ ] rent vs buy calculator
-- [ ] portfolio survival in retirement analysis
-- [ ] backtesting portfolio
+- [ ] Robo advisor comparison
+- [ ] Rent vs buy calculator
+- [ ] Portfolio survival in retirement analysis
+- [ ] Backtesting portfolio
+- [ ] Paying off mortgage vs investing
+- [ ] Risk vs return for ETF portfolios
+- [ ] Tax harvesting strategy upside
