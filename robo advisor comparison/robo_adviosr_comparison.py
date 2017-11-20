@@ -4,7 +4,7 @@ import numpy as np
 
 ## defines constant to change
 Return = 0.07
-years = 25
+years = 5
 starting_tfsa = 5000
 TFSA_cont = 5500
 starting_rrsp = 10000
@@ -90,9 +90,9 @@ def bmo_smartfolio_agg(MER, AMF, balance, trading_fee):
     values = np.zeros( (years,3) )
     if balance < 100000:
         values[0] = calculate(0.009, AMF, balance, trading_fee)
-    elif balance < 150000 & balance:
+    elif balance < 150000:
         values[0] = calculate(0.0084, AMF, balance, trading_fee)
-    elif balance < 250000 & balance:
+    elif balance < 250000:
         values[0] = calculate(0.0077, AMF, balance, trading_fee)
     else:
         values[0] = calculate(0.00685, AMF, balance, trading_fee)
@@ -113,20 +113,22 @@ def bmo_smartfolio_agg(MER, AMF, balance, trading_fee):
 ## wleathbar
 def wealthbar(MER, AMF, balance, trading_fee):
     values = np.zeros( (years,3) )
-    if balance < 150000:
-        values[0] = calculate(0.0091, AMF, balance, trading_fee)
-    elif balance < 500000 & balance:
-        values[0] = calculate(0.0078, AMF, balance, trading_fee)
+    if  balance < 150000:
+        MER = (max(0,balance - 5000)*0.006)/balance
+    elif balance < 500000:
+        MER = (145000*0.006 + (balance-150000)*0.004)/balance
     else:
-        values[0] = calculate(0.0073, AMF, balance, trading_fee)
+        MER = (145000*0.006 +350000*0.004 + (balance - 500000)*0.0035)/balance
+    values[0] = calculate(MER, AMF, balance, trading_fee)
     for year in range(years):
         if year >0:
-            if values[year-1,0] + TFSA_cont + rrsp_cont + general_cont < 150000:
-                values[year] = calculate(0.0091, AMF, values[year-1,0] + TFSA_cont + rrsp_cont + general_cont, trading_fee)
-            elif values[year-1,0] + TFSA_cont + rrsp_cont + general_cont < 500000:
-                values[year] = calculate(0.0078, AMF, values[year-1,0] + TFSA_cont + rrsp_cont + general_cont, trading_fee)  
-            else:
-                values[year] = calculate(0.0073, AMF, values[year-1,0] + TFSA_cont + rrsp_cont + general_cont, trading_fee) 
+               if  balance < 150000:
+                   MER = (max(0,balance - 5000)*0.006)/balance
+               elif balance < 500000:
+                   MER = (145000*0.006 + (balance-150000)*0.004)/balance
+               else:
+                   MER = (145000*0.006 +350000*0.004 + (balance - 500000)*0.0035)/balance 
+        values[year] = calculate(0.0073, AMF, values[year-1,0] + TFSA_cont + rrsp_cont + general_cont, trading_fee) 
     return values
 
 
@@ -198,6 +200,8 @@ def just_wealth(MER, AMF, balance, trading_fee):
                 values[year] = calculate(0.0065, AMF, values[year-1,0] + TFSA_cont + rrsp_cont + general_cont, trading_fee) 
     return values
 
+
+years = years + 1
 
 ## function calls
 wealth_simple = wealth_simple_agg(0.006,0,starting_tfsa + starting_rrsp +starting_general, 0)
