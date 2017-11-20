@@ -261,7 +261,7 @@ Adviosrs = ['Wealth Simple', 'Sun Life', 'Mutual funds', 'Tangerine', 'DIY ETFs'
             'Invisor', 'RBC Domionion securities']
 
 ## set x to be 0 for value, 1 for MER and 3 for total return 
-x=2
+x=1
 ## total return
 plt.plot(year_list, wealth_simple[:,x],lw=2.5, color=tableau20[0])
 plt.plot(year_list, sun_life[:,x],lw=2.5, color=tableau20[1])
