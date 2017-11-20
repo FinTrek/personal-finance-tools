@@ -117,7 +117,7 @@ def wealthbar(MER, AMF, balance, trading_fee):
 def port_iq(MER, AMF, balance, trading_fee):
     values = np.zeros( (years,3) )
     if balance < 100000:
-        values[0] = calculate(0.09, AMF, balance, trading_fee)
+        values[0] = calculate(0.009, AMF, balance, trading_fee)
     elif balance < 250000 & balance:
         values[0] = calculate(0.008, AMF, balance, trading_fee)
     elif balance < 500000 & balance:
@@ -129,7 +129,7 @@ def port_iq(MER, AMF, balance, trading_fee):
     for year in range(years):
         if year >0:
             if values[year-1,0] + TFSA_cont + rrsp_cont + general_cont < 100000:
-                values[year] = calculate(0.09, AMF, values[year-1,0] + TFSA_cont + rrsp_cont + general_cont, trading_fee)
+                values[year] = calculate(0.009, AMF, values[year-1,0] + TFSA_cont + rrsp_cont + general_cont, trading_fee)
             elif values[year-1,0] + TFSA_cont + rrsp_cont + general_cont < 250000:
                 values[year] = calculate(0.008, AMF, values[year-1,0] + TFSA_cont + rrsp_cont + general_cont, trading_fee)  
             elif values[year-1,0] + TFSA_cont + rrsp_cont + general_cont < 500000:
@@ -140,8 +140,45 @@ def port_iq(MER, AMF, balance, trading_fee):
                 values[year] = calculate(0.0055, AMF, values[year-1,0] + TFSA_cont + rrsp_cont + general_cont, trading_fee) 
     return values
 
+## Modern advisor webiste sights that MER is 0.25% for underlying funds
+def modern_ad(MER, AMF, balance, trading_fee):
+    values = np.zeros( (years,3) )
+    if balance < 10000:
+        values[0] = calculate(0.0025, AMF, balance, trading_fee)
+    elif balance < 100000 & balance:
+        values[0] = calculate(0.0075, AMF, balance, trading_fee)
+    elif balance < 500000 & balance:
+        values[0] = calculate(0.0065, AMF, balance, trading_fee)
+    else:
+        values[0] = calculate(0.006, AMF, balance, trading_fee)
+    for year in range(years):
+        if year >0:
+            if values[year-1,0] + TFSA_cont + rrsp_cont + general_cont < 10000:
+                values[year] = calculate(0.0025, AMF, values[year-1,0] + TFSA_cont + rrsp_cont + general_cont, trading_fee)
+            elif values[year-1,0] + TFSA_cont + rrsp_cont + general_cont < 100000:
+                values[year] = calculate(0.0075, AMF, values[year-1,0] + TFSA_cont + rrsp_cont + general_cont, trading_fee)  
+            elif values[year-1,0] + TFSA_cont + rrsp_cont + general_cont < 500000:
+                values[year] = calculate(0.0065, AMF, values[year-1,0] + TFSA_cont + rrsp_cont + general_cont, trading_fee) 
+            else:
+                values[year] = calculate(0.006, AMF, values[year-1,0] + TFSA_cont + rrsp_cont + general_cont, trading_fee) 
+    return values
 
 
+## Just wealth MER's are assumed to be standard 0.25% listed on their website
+def just_wealth(MER, AMF, balance, trading_fee):
+    values = np.zeros( (years,3) )
+    if balance < 500000:
+        values[0] = calculate(0.0075, AMF, balance, trading_fee)
+
+    else:
+        values[0] = calculate(0.0065, AMF, balance, trading_fee)
+    for year in range(years):
+        if year >0:
+            if values[year-1,0] + TFSA_cont + rrsp_cont + general_cont < 500000:
+                values[year] = calculate(0.0075, AMF, values[year-1,0] + TFSA_cont + rrsp_cont + general_cont, trading_fee)
+            else:
+                values[year] = calculate(0.0065, AMF, values[year-1,0] + TFSA_cont + rrsp_cont + general_cont, trading_fee) 
+    return values
 
 
 ## function calls
@@ -157,6 +194,11 @@ nestwealth = nest_wealth_agg(0.0013,0,starting_tfsa + starting_rrsp +starting_ge
 BMO_smartfolio = bmo_smartfolio_agg(0.009,0,starting_tfsa + starting_rrsp +starting_general,0)
 Questrade_port_iq = port_iq(0.009,0,starting_tfsa + starting_rrsp +starting_general,0)
 wealth_bar = wealthbar(0.009,0,starting_tfsa + starting_rrsp +starting_general,0)
+modern_advisor = modern_ad(0.009,0,starting_tfsa + starting_rrsp +starting_general,0)
+Just_wealth_port =just_wealth(0.009,0,starting_tfsa + starting_rrsp +starting_general,0)
+## could not find invisors MER of underlying funds.  I will assume it's 0.18%
+invisor = tangerine = aggregate(0.0068,0,starting_tfsa + starting_rrsp +starting_general, 0)
+
 
 ## makes list for the years list
 year_list = []
@@ -196,7 +238,7 @@ ax.get_yaxis().tick_left()
 # Now that the plot is prepared, it's time to actually plot the data!    
 # Note that I plotted the majors in order of the highest % in the final year.    
 Adviosrs = ['Wealth Simple', 'Sun Life', 'Mutual funds', 'Tangerine', 'DIY ETFs',
-            'Nest Wealth', 'BMO Smartfolio']
+            'Nest Wealth', 'BMO Smartfolio', 'Modern Advisor']
 
     
 
@@ -210,7 +252,9 @@ plt.plot(year_list, DIY_ETF[:,0],lw=2.5, color=tableau20[5])
 plt.plot(year_list, BMO_smartfolio[:,0],lw=2.5, color=tableau20[6])
 plt.plot(year_list, Questrade_port_iq[:,0],lw=2.5, color=tableau20[7])
 plt.plot(year_list, wealth_bar[:,0],lw=2.5, color=tableau20[8])
-
+plt.plot(year_list, modern_advisor[:,0],lw=2.5, color=tableau20[9])
+plt.plot(year_list, Just_wealth_port[:,0],lw=2.5, color=tableau20[10])
+plt.plot(year_list, invisor[:,0],lw=2.5, color=tableau20[11])
 
 
 ##Total MER
