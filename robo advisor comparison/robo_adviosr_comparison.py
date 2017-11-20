@@ -260,35 +260,23 @@ Adviosrs = ['Wealth Simple', 'Sun Life', 'Mutual funds', 'Tangerine', 'DIY ETFs'
             'Nest Wealth', 'BMO Smartfolio', 'Modern Advisor', 'Just Wealth', 
             'Invisor', 'RBC Domionion securities']
 
-    
-
+## set x to be 0 for value, 1 for MER and 3 for total return 
+x=2
 ## total return
-plt.plot(year_list, wealth_simple[:,0],lw=2.5, color=tableau20[0])
-plt.plot(year_list, sun_life[:,0],lw=2.5, color=tableau20[1])
-plt.plot(year_list, Mutual_fund[:,0],lw=2.5, color=tableau20[2])
-plt.plot(year_list, tangerine[:,0],lw=2.5, color=tableau20[3])
-plt.plot(year_list, nestwealth[:,0],lw=2.5, color=tableau20[4])
-plt.plot(year_list, DIY_ETF[:,0],lw=2.5, color=tableau20[5])
-plt.plot(year_list, BMO_smartfolio[:,0],lw=2.5, color=tableau20[6])
-plt.plot(year_list, Questrade_port_iq[:,0],lw=2.5, color=tableau20[7])
-plt.plot(year_list, wealth_bar[:,0],lw=2.5, color=tableau20[8])
-plt.plot(year_list, modern_advisor[:,0],lw=2.5, color=tableau20[9])
-plt.plot(year_list, Just_wealth_port[:,0],lw=2.5, color=tableau20[10])
-plt.plot(year_list, invisor[:,0],lw=2.5, color=tableau20[11])
-plt.plot(year_list, RBC_dom[:,0],lw=2.5, color=tableau20[12])
+plt.plot(year_list, wealth_simple[:,x],lw=2.5, color=tableau20[0])
+plt.plot(year_list, sun_life[:,x],lw=2.5, color=tableau20[1])
+plt.plot(year_list, Mutual_fund[:,x],lw=2.5, color=tableau20[2])
+plt.plot(year_list, tangerine[:,x],lw=2.5, color=tableau20[3])
+plt.plot(year_list, nestwealth[:,x],lw=2.5, color=tableau20[4])
+plt.plot(year_list, DIY_ETF[:,x],lw=2.5, color=tableau20[5])
+plt.plot(year_list, BMO_smartfolio[:,x],lw=2.5, color=tableau20[6])
+plt.plot(year_list, Questrade_port_iq[:,x],lw=2.5, color=tableau20[7])
+plt.plot(year_list, wealth_bar[:,x],lw=2.5, color=tableau20[8])
+plt.plot(year_list, modern_advisor[:,x],lw=2.5, color=tableau20[9])
+plt.plot(year_list, Just_wealth_port[:,x],lw=2.5, color=tableau20[10])
+plt.plot(year_list, invisor[:,x],lw=2.5, color=tableau20[11])
+plt.plot(year_list, RBC_dom[:,x],lw=2.5, color=tableau20[12])
 
 
-##Total MER
-plt.gca().set_color_cycle(['red', 'green', 'blue', 'yellow'])
-plt.plot(year_list, wealth_simple[:,1])
-plt.plot(year_list, sun_life[:,1])
-plt.plot(year_list, Mutual_fund[:,1])
-plt.plot(year_list, tangerine[:,1])
 
-##Total return
-plt.gca().set_color_cycle(['red', 'green', 'blue', 'yellow'])
-plt.plot(year_list, wealth_simple[:,2])
-plt.plot(year_list, sun_life[:,2])
-plt.plot(year_list, Mutual_fund[:,2])
-plt.plot(year_list, tangerine[:,2])
 
