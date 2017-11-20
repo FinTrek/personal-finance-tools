@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd  
 
 
 ## defines constant to change
@@ -22,7 +21,7 @@ def calculate(MER, AMF, balance, Trading_fee):
     Tot_return = new/balance
     return new, tot_MER, Tot_return;
 
-## aggregates for standard constant fee structue.  If they change cucstom functions will be used
+## aggregates for standard constant fee structue.  If they change Custom functions will be used
 def aggregate(MER, AMF, balance, trading_fee):
     values = np.zeros( (years,3) )
     values[0] = calculate(MER, AMF, balance, trading_fee)
@@ -30,6 +29,26 @@ def aggregate(MER, AMF, balance, trading_fee):
         if year >0:
             values[year] = calculate(MER, AMF, values[year-1,0] + TFSA_cont + rrsp_cont + general_cont, trading_fee)
     return values
+
+
+
+## RBC domionion secutires
+def RBC_agg(MER, AMF, balance, trading_fee):
+    values = np.zeros( (years,3) )
+    TFSA = np.zeros ((years,3))
+    TFSA[0] = starting_tfsa + TFSA_cont
+    values[0] = calculate(MER, AMF + 0.01*TFSA[0,0], balance, trading_fee)
+    for year in range(years):
+        if year >0:
+            TFSA[year] = calculate(MER, 0.01*TFSA[year-1,0], TFSA[year-1,0]+ TFSA_cont, trading_fee)
+            values[year] = calculate(MER, AMF + 0.01*TFSA[year,0], values[year-1,0] + TFSA_cont + rrsp_cont + general_cont, trading_fee)
+    return values
+
+
+
+
+
+
 
 ##wealth simple  assumes MER of 0.2%
 def wealth_simple_agg(MER, AMF, balance, trading_fee):
@@ -169,7 +188,6 @@ def just_wealth(MER, AMF, balance, trading_fee):
     values = np.zeros( (years,3) )
     if balance < 500000:
         values[0] = calculate(0.0075, AMF, balance, trading_fee)
-
     else:
         values[0] = calculate(0.0065, AMF, balance, trading_fee)
     for year in range(years):
@@ -198,6 +216,7 @@ modern_advisor = modern_ad(0.009,0,starting_tfsa + starting_rrsp +starting_gener
 Just_wealth_port =just_wealth(0.009,0,starting_tfsa + starting_rrsp +starting_general,0)
 ## could not find invisors MER of underlying funds.  I will assume it's 0.18%
 invisor = tangerine = aggregate(0.0068,0,starting_tfsa + starting_rrsp +starting_general, 0)
+RBC_dom = RBC_agg(0.0018,125,starting_tfsa + starting_rrsp +starting_general, 300)
 
 
 ## makes list for the years list
@@ -238,7 +257,8 @@ ax.get_yaxis().tick_left()
 # Now that the plot is prepared, it's time to actually plot the data!    
 # Note that I plotted the majors in order of the highest % in the final year.    
 Adviosrs = ['Wealth Simple', 'Sun Life', 'Mutual funds', 'Tangerine', 'DIY ETFs',
-            'Nest Wealth', 'BMO Smartfolio', 'Modern Advisor']
+            'Nest Wealth', 'BMO Smartfolio', 'Modern Advisor', 'Just Wealth', 
+            'Invisor', 'RBC Domionion securities']
 
     
 
@@ -255,6 +275,7 @@ plt.plot(year_list, wealth_bar[:,0],lw=2.5, color=tableau20[8])
 plt.plot(year_list, modern_advisor[:,0],lw=2.5, color=tableau20[9])
 plt.plot(year_list, Just_wealth_port[:,0],lw=2.5, color=tableau20[10])
 plt.plot(year_list, invisor[:,0],lw=2.5, color=tableau20[11])
+plt.plot(year_list, RBC_dom[:,0],lw=2.5, color=tableau20[12])
 
 
 ##Total MER
