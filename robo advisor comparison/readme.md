@@ -33,4 +33,10 @@ Now simply run through the script you will generate a few things that will aid y
 </p>
 
 
-Lastly, feel free to add TD-Esereis, RBC Dominion Securities Sunlife, Tangerine and DIY yourself investing in ETFs into this file.  It will give you a sense of what other none Robo Advisors are charging.
+Lastly, feel free to add TD-Esereis, RBC Dominion Securities Sunlife, Tangerine, Mutual Funds, and DIY yourself investing in ETFs into this file.  It will give you a sense of what other none Robo Advisors are charging.
+
+Please feel free to open any issues or ask any questions.
+
+Cheers,
+
+Winston
