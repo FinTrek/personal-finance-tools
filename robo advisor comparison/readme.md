@@ -21,11 +21,16 @@ starting_general = 1000
 general_cont = 2000
 ```
 
-Now simply run through the script you will generate a few things that will aid you in making a decision.
-<p align="center">
-  <img src=images/MER%20fee%20distribution.png alt="overview" style="width: 600px;" style="height: 200px;"/>
-</p>
+Now simply run through the script you will generate a few things that will aid you in making a decision. The first is a summary of the your portfolio values over the time period specified.  The second is how the total effective MER changes over that period.  If you would like a simple list of the values you can find that at the end of the programs output as well.
+
 
 <p align="center">
   <img src=images/Total%20Value%20Difference.png alt="overview" style="width: 600px;" style="height: 200px;"/>
 </p>
+
+<p align="center">
+  <img src=images/MER%20fee%20distribution.png alt="overview" style="width: 600px;" style="height: 200px;"/>
+</p>
+
+
+Lastly, feel free to add TD-Esereis, RBC Dominion Securities Sunlife, Tangerine and DIY yourself investing in ETFs into this file.  It will give you a sense of what other none Robo Advisors are charging.
