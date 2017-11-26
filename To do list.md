@@ -2,10 +2,11 @@
 This is the list of code/applications I plan to make t=in order to help me become more proficient in Python, data visualization while learning more about personal finance.
 
 ## to do:
-- [ ] Robo advisor comparison
-  - [ ] Make list of robo advisors and their fees
-  - [ ] Make function to evaluate their impact of fees over different year periods
-  - [ ] Compare total cost and MER difference between the options
+- [x] Robo advisor comparison
+  - [x] Make list of robo advisors and their fees
+  - [x] Make function to evaluate their impact of fees over different year periods
+  - [x] Compare total cost and MER difference between the options
+  - [ ] Add summary descriptiopn
 - [ ] Rent vs buy calculator
   - [ ] Make list of tax and fee implications of each option
   - [ ] Evaluate Net worth curve for each option
