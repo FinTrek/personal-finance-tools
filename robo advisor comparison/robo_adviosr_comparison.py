@@ -1,22 +1,23 @@
+## loads packages that will be ised throughout
 import matplotlib.pyplot as plt
-import numpy as np
+import numpy as np 
 
 
-## defines constant to change
-Return = 0.07
+## defines constant to change, you can customize these to your own portfolio
+Return = 0.06
 years = 5
 starting_tfsa = 5000
-TFSA_cont = 5500
-starting_rrsp = 10000
+TFSA_cont = 55000
+starting_rrsp = 50000
 income = 75000
 rrsp_cont = min(26000,income * 0.18)
-starting_general = 5000
-general_cont = 2000
-
+starting_general = 0
+general_cont = 0
 
 total = starting_tfsa + starting_rrsp + starting_general
 
 ##makes function to calaulate the year over year cost
+## This function will take existing terms of the accounts and move it forward one year in details
 def calculate(MER, AMF, balance, Trading_fee):
     new = balance*(1 + Return - MER) - AMF - Trading_fee
     tot_MER = (balance*(1 + Return) - new)/balance
@@ -24,17 +25,20 @@ def calculate(MER, AMF, balance, Trading_fee):
     return new, tot_MER, Tot_return;
 
 ## aggregates for standard constant fee structue.  If they change Custom functions will be used
+## This function will call the calculate function for the years sepcified for the account details used specified
 def aggregate(MER, AMF, balance, trading_fee):
-    values = np.zeros( (years,3) )
-    values[0] = calculate(MER, AMF, balance, trading_fee)
-    for year in range(years):
+    values = np.zeros( (years,3) ) ## defines the vector
+    values[0] = calculate(MER, AMF, balance, trading_fee) ## sets the value for starting values
+    for year in range(years): ## for each of the years specified
         if year >0:
-            values[year] = calculate(MER, AMF, values[year-1,0] + TFSA_cont + rrsp_cont + general_cont, trading_fee)
+            ## iterates and finds the new values
+            values[year] = calculate(MER, AMF, values[year-1,0] + TFSA_cont + rrsp_cont + general_cont, trading_fee) 
     return values
 
 
 
 ## RBC domionion secutires
+## This is a modification of the aggregate function, what makes this unique is the fixed TFSA fee of 1%
 def RBC_agg(MER, AMF, balance, trading_fee):
     values = np.zeros( (years,3) )
     TFSA = np.zeros ((years,3))
@@ -48,11 +52,8 @@ def RBC_agg(MER, AMF, balance, trading_fee):
 
 
 
-
-
-
-
 ##wealth simple  assumes MER of 0.2%
+## This is the same as the aggregate function however there are fee discontunities
 def wealth_simple_agg(MER, AMF, balance, trading_fee):
     values = np.zeros( (years,3) )
     if balance > 100000:
@@ -69,6 +70,7 @@ def wealth_simple_agg(MER, AMF, balance, trading_fee):
 
 
 ## Nest wealth  webiste claims MER is 0.13%
+## This is the same as the aggregate function however there are fee discontunities
 def nest_wealth_agg(MER, AMF, balance, trading_fee):
     values = np.zeros( (years,3) )
     if balance < 75000:
@@ -88,6 +90,8 @@ def nest_wealth_agg(MER, AMF, balance, trading_fee):
     return values
 
 ## says funds have an MER of 0.20% to 0.35%
+## This is the same as the aggregate function however there are fee discontunities
+## This is more unique as the intiail investments are always charged at the same rate.
 def bmo_smartfolio_agg(MER, AMF, balance, trading_fee):
     values = np.zeros( (years,3) )
     if  balance < 100000:
@@ -116,10 +120,12 @@ def bmo_smartfolio_agg(MER, AMF, balance, trading_fee):
 
 
 ## wleathbar
+## This is the same as the aggregate function however there are fee discontunities
+## This is more unique as the intiail investments are always charged at the same rate.
 def wealthbar(MER, AMF, balance, trading_fee):
     values = np.zeros( (years,3) )
     if  balance < 150000:
-        MER = (max(0,balance - 5000)*0.006)/balance
+        MER = (max(0,balance - 5000)*0.006)/balance  ## to ensure MER is always positive
     elif balance < 500000:
         MER = (145000*0.006 + (balance-150000)*0.004)/balance
     else:
@@ -143,6 +149,7 @@ def wealthbar(MER, AMF, balance, trading_fee):
 
 
 ## says MER range from 0.21 to 1.21%
+## This is the same as the aggregate function however there are fee discontunities
 def port_iq(MER, AMF, balance, trading_fee):
     values = np.zeros( (years,3) )
     if balance < 100000:
@@ -170,6 +177,7 @@ def port_iq(MER, AMF, balance, trading_fee):
     return values
 
 ## Modern advisor webiste sights that MER is 0.25% for underlying funds
+## This is the same as the aggregate function however there are fee discontunities
 def modern_ad(MER, AMF, balance, trading_fee):
     values = np.zeros( (years,3) )
     if balance < 10000:
@@ -194,6 +202,7 @@ def modern_ad(MER, AMF, balance, trading_fee):
 
 
 ## Just wealth MER's are assumed to be standard 0.25% listed on their website
+## This is the same as the aggregate function however there are fee discontunities
 def just_wealth(MER, AMF, balance, trading_fee):
     values = np.zeros( (years,3) )
     if balance < 500000:
@@ -208,9 +217,11 @@ def just_wealth(MER, AMF, balance, trading_fee):
                 values[year] = calculate(0.0065, AMF, values[year-1,0] + TFSA_cont + rrsp_cont + general_cont, trading_fee) 
     return values
 
-
+## adds one to years for the purpose of making the graphs
 years = years + 1
-## function calls
+
+
+
 ## function calls
 wealth_simple = wealth_simple_agg(0.006,0,starting_tfsa + starting_rrsp +starting_general, 0)
 ## takes my MER of 0.63% from my employer sunlife plan
@@ -230,6 +241,8 @@ Just_wealth_port =just_wealth(0.009,0,starting_tfsa + starting_rrsp +starting_ge
 invisor = aggregate(0.0068,0,starting_tfsa + starting_rrsp +starting_general, 0)
 RBC_dom = RBC_agg(0.0018,125,starting_tfsa + starting_rrsp +starting_general, 300)
 TD_eserise = aggregate(0.0041,0,starting_tfsa + starting_rrsp +starting_general, 0)
+    
+    
     
 
 
@@ -275,56 +288,74 @@ Adviosrs = ['Wealth Simple', 'Sun Life', 'Mutual funds', 'Tangerine', 'Nest Weal
             'Modern Advisor','Just Wealth',  'Invisor', 'RBC Domionion securities'
            , 'TD E series']
 
-
+## set x to be 0 for value, 1 for MER and 3 for total return 
 x=1
 
-## total return
-plt.plot(year_list, wealth_simple[:,x],lw=2.5, color=tableau20[0], label = Adviosrs[0])
-plt.plot(year_list, sun_life[:,x],lw=2.5, color=tableau20[1], label = Adviosrs[1])
-##plt.plot(year_list, Mutual_fund[:,x],lw=2.5, color=tableau20[2], label = Adviosrs[2])
-##plt.plot(year_list, tangerine[:,x],lw=2.5, color=tableau20[3], label = Adviosrs[3])
-plt.plot(year_list, nestwealth[:,x],lw=2.5, color=tableau20[4], label = Adviosrs[4])
-##plt.plot(year_list, DIY_ETF[:,x],lw=2.5, color=tableau20[5], label = Adviosrs[5])
-plt.plot(year_list, BMO_smartfolio[:,x],lw=2.5, color=tableau20[6], label = Adviosrs[6])
-plt.plot(year_list, Questrade_port_iq[:,x],lw=2.5, color=tableau20[7], label = Adviosrs[7])
-plt.plot(year_list, wealth_bar[:,x],lw=2.5, color=tableau20[8], label = Adviosrs[8])
-plt.plot(year_list, modern_advisor[:,x],lw=2.5, color=tableau20[9], label = Adviosrs[9])
-plt.plot(year_list, Just_wealth_port[:,x],lw=2.5, color=tableau20[10], label = Adviosrs[10])
-plt.plot(year_list, invisor[:,x],lw=2.5, color=tableau20[11], label = Adviosrs[11])
-##plt.plot(year_list, RBC_dom[:,x],lw=2.5, color=tableau20[12], label = Adviosrs[12])
-##plt.plot(year_list, TD_eserise[:,x],lw=2.5, color=tableau20[13], label = Adviosrs[13])
+# Now that the plot is prepared, it's time to actually plot the data!    
+# Note that I plotted the majors in order of the highest % in the final year.    
+## making a list of adviosrs for labeling purposes
+Advisors  = ['Wealth Simple', 'Sun Life', 'Mutual funds', 'Tangerine', 'Nest Wealth',
+            'DIY ETFs', 'BMO Smartfolio', 'Questrade portfolio IQ', 'Wealth Bar', 
+            'Modern Advisor','Just Wealth',  'Invisor', 'RBC Domionion securities'
+           , 'TD E series']
 
+
+## plots lines with labels
+plt.plot(year_list, wealth_simple[:,x],lw=2.5, color=tableau20[0], label = Advisors[0])
+##plt.plot(year_list, sun_life[:,x],lw=2.5, color=tableau20[1], label = Advisors[1])
+##plt.plot(year_list, Mutual_fund[:,x],lw=2.5, color=tableau20[2], label = Advisors[2])
+##plt.plot(year_list, tangerine[:,x],lw=2.5, color=tableau20[3], label = Advisors[3])
+plt.plot(year_list, nestwealth[:,x],lw=2.5, color=tableau20[4], label = Advisors[4])
+##plt.plot(year_list, DIY_ETF[:,x],lw=2.5, color=tableau20[5], label = Advisors[5])
+plt.plot(year_list, BMO_smartfolio[:,x],lw=2.5, color=tableau20[6], label = Advisors[6])
+plt.plot(year_list, Questrade_port_iq[:,x],lw=2.5, color=tableau20[7], label = Advisors[7])
+plt.plot(year_list, wealth_bar[:,x],lw=2.5, color=tableau20[8], label = Advisors[8])
+plt.plot(year_list, modern_advisor[:,x],lw=2.5, color=tableau20[9], label = Advisors[9])
+plt.plot(year_list, Just_wealth_port[:,x],lw=2.5, color=tableau20[10], label = Advisors[10])
+plt.plot(year_list, invisor[:,x],lw=2.5, color=tableau20[11], label = Advisors[11])
+##plt.plot(year_list, RBC_dom[:,x],lw=2.5, color=tableau20[12], label = Advisors[12])
+##plt.plot(year_list, TD_eserise[:,x],lw=2.5, color=tableau20[13], label = Advisors[13])
+
+## makes title
 plt.title('Investing Options MERs for portolfio of size $%s' %(total))
 
-# Place a legend to the right of this smaller subplot.
-plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
-
+## aggregates x bar data for the last year values
 bar_data_x = [wealth_simple[-1,0], sun_life[-1:,0], Mutual_fund[-1:,0], tangerine[-1:,0],nestwealth[-1:,0],
              DIY_ETF[-1:,0], BMO_smartfolio[-1:,0], Questrade_port_iq[-1:,0], wealth_bar[-1:,0],
               modern_advisor[-1:,0], Just_wealth_port[-1:,0], invisor[-1:,0], RBC_dom[-1:,0], TD_eserise[-1:,0]]
 
-Adviosrs = ['Wealth Simple', 'Sun Life', 'Mutual funds', 'Tangerine', 'Nest Wealth',
-            'DIY ETFs', 'BMO Smartfolio', 'Questrade', 'Wealth Bar', 
-            'Modern Advisor','Just Wealth',  'Invisor', 'RBC' , 'TD_Eseries' ]
+## relists the advisors for easier code review
+Advisors  = ['Wealth Simple', 'Sun Life', 'Mutual funds', 'Tangerine', 'Nest Wealth',
+            'DIY ETFs', 'BMO Smartfolio', 'Questrade portfolio IQ', 'Wealth Bar', 
+            'Modern Advisor','Just Wealth',  'Invisor', 'RBC Domionion securities'
+           , 'TD E series']
+
+## plots a bar graph of the final values
 plt.figure(figsize=(20, 12))    
-y_pos = np.arange(len(Adviosrs))
+y_pos = np.arange(len(Advisors))
  
+    ## formates the graph
 plt.bar(y_pos, bar_data_x, align='center', alpha=0.5, color="#3F5D7D")
-plt.xticks(y_pos, Adviosrs)
+plt.xticks(y_pos, Advisors)
 plt.ylabel('portfolio values')
 plt.title('Total portfolio size diffrence')
 
 
 
 
+
+## removes the brackets around elements of the list
 def listToStringWithoutBrackets(list1):
     return str(list1).replace('[','').replace(']','')
 
+## initalizes the index
 i = 0
-for x in Adviosrs:
-    temp = np.round(bar_data_x[i], 2) 
+for x in Advisors:
+    ## rounds to the nearest dollar
+    temp = np.round(bar_data_x[i], 0) 
+    ## prints the portfolio and the values
     print( x,'ending portfolio balance is $', listToStringWithoutBrackets(temp))  
+    ## iterates to the next index
     i = i + 1
-
 
 
