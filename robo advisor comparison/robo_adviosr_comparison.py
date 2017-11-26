@@ -7,12 +7,12 @@ import numpy as np
 Return = 0.06
 years = 5
 starting_tfsa = 5000
-TFSA_cont = 55000
+TFSA_cont = 5500
 starting_rrsp = 50000
 income = 75000
 rrsp_cont = min(26000,income * 0.18)
-starting_general = 0
-general_cont = 0
+starting_general = 1000
+general_cont = 2000
 
 total = starting_tfsa + starting_rrsp + starting_general
 
