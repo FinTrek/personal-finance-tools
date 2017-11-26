@@ -299,5 +299,32 @@ plt.title('Investing Options MERs for portolfio of size $%s' %(total))
 # Place a legend to the right of this smaller subplot.
 plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
 
+bar_data_x = [wealth_simple[-1,0], sun_life[-1:,0], Mutual_fund[-1:,0], tangerine[-1:,0],nestwealth[-1:,0],
+             DIY_ETF[-1:,0], BMO_smartfolio[-1:,0], Questrade_port_iq[-1:,0], wealth_bar[-1:,0],
+              modern_advisor[-1:,0], Just_wealth_port[-1:,0], invisor[-1:,0], RBC_dom[-1:,0], TD_eserise[-1:,0]]
+
+Adviosrs = ['Wealth Simple', 'Sun Life', 'Mutual funds', 'Tangerine', 'Nest Wealth',
+            'DIY ETFs', 'BMO Smartfolio', 'Questrade', 'Wealth Bar', 
+            'Modern Advisor','Just Wealth',  'Invisor', 'RBC' , 'TD_Eseries' ]
+plt.figure(figsize=(20, 12))    
+y_pos = np.arange(len(Adviosrs))
+ 
+plt.bar(y_pos, bar_data_x, align='center', alpha=0.5, color="#3F5D7D")
+plt.xticks(y_pos, Adviosrs)
+plt.ylabel('portfolio values')
+plt.title('Total portfolio size diffrence')
+
+
+
+
+def listToStringWithoutBrackets(list1):
+    return str(list1).replace('[','').replace(']','')
+
+i = 0
+for x in Adviosrs:
+    temp = np.round(bar_data_x[i], 2) 
+    print( x,'ending portfolio balance is $', listToStringWithoutBrackets(temp))  
+    i = i + 1
+
 
 
