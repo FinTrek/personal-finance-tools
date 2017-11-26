@@ -22,3 +22,10 @@ general_cont = 2000
 ```
 
 Now simply run through the script you will generate a few things that will aid you in making a decision.
+<p align="center">
+  <img src=images/MER%20fee%20distribution.png alt="overview" style="width: 600px;" style="height: 200px;"/>
+</p>
+
+<p align="center">
+  <img src=images/Total%20Value%20Difference.png alt="overview" style="width: 600px;" style="height: 200px;"/>
+</p>
