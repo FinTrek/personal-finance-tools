@@ -1,7 +1,5 @@
 # Robo Advisor Comparison tool
 
-Note this was a fun side project and not meant to reflect professional financial advice.
-
 I Made a tool that compares the cost of the common Robo advisors in Canada.  The tools only compares costs for investors looking to find the cheapest robo advisors.  Note that I have included a RBC Dominion Securities and DIY ETF portfolio's.  These aren't perfectly comparisons since they offer different services (more or less planning).  When using this tool please think holistically about the advice/expertise you need and what you're willing to pay for that.
 
 ## How to Use
